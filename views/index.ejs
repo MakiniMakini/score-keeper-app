@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Score Keeper</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+
+</head>
+<body>
+   
+    <div class="">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            '<strong>STAY AT HOME!</strong> Let us all fight covid 19' <em>-Makini Makini</em>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        <h1 class="heading"> TWO-PLAYER SCORE-KEEPER APP</h1>
+        <div class="gradient-border" id="box">
+            <div class="container-fluid text-center pt-5">
+                <h1><span id="p1Display">0</span> vs <span id="p2Display">0</span></h1>
+        
+                <h4>Maximum Score: <span id="maxScore">0</span> </h>
+            
+                <div class="">
+                    <input class="" type="number" placeholder="Add Max Score">
+                </div>
+                <div class="">
+                <button class=" btn btn-success" id="p1">PLAYER 1</button>
+                <button class="btn btn-secondary" id="p2">PLAYER 2</button>
+                <button class=" btn btn-warning" id="reset">RESET</button>
+                </div>
+            </div>
+        </div>
+        <div class="instructions">
+            <h4 class="text-center">How to Use App</h4>
+            <hr>
+            <ul>
+                <li>Add maximum score or use up-arrow then hit enter!</li>
+                <hr>
+                <li>Score Player one by clicking on 'player1-button'</li>
+                <hr>
+                <li>Score Player two by clicking on 'player2-button'</li>
+                <hr>
+                <li>Reset scores using the 'reset-button'</li>
+                <hr>
+                © 2020 Copyright: <a href="http://makini-makini.herokuapp.com">Makini Makini</a>
+            </ul>
+        </div>        
+    </div>
+  
+    <script src="/flashjs-master/flash.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script>
+    var p1Score = 0;
+    var p2Score = 0;
+    var gameOver = false;
+    // var winningScore = ;
+    var numInput = document.querySelector("input")
+    var maximumScore = document.getElementById("maxScore")
+      $("#p1").on("click", function(){
+          if(!gameOver){
+            p1Score +=1;
+            if(p1Score === winningScore){
+                p1Display.classList.add("winner")
+                gameOver = true
+                p1Win();
+            }
+          p1Display.textContent = p1Score
+          }     
+      });
+
+      $("#p2").on("click", function(){
+          if(!gameOver){
+            p2Score +=1;
+            if(p2Score === winningScore){
+                p2Display.classList.add("winner")
+                gameOver = true
+                p2Win();
+            }
+          p2Display.textContent = p2Score
+          }      
+      });
+      $("#reset").on("click", function(){
+        reset();
+        maximumScore.textContent = 0;
+        numInput.value = ""
+        gameOver = true
+      });
+      function reset(){
+        p1Score = 0;
+          p2Score = 0;
+          p1Display.textContent = 0;
+          p2Display.textContent = 0;
+          gameOver = false;
+          p1Display.classList.remove("winner")
+          p2Display.classList.remove("winner")
+      }
+      numInput.addEventListener("change", function(){
+        maximumScore.textContent = numInput.value
+        winningScore = Number(numInput.value)
+        reset();
+});
+
+function p1Win (){
+    window.FlashMessage.success('Player 1 has won!', {
+  progress: true, // displays a progress bar at the bottom of the flash message
+  interactive: true, // Define flash message actions (pause on mouseover, close on click) 
+  timeout: 3000, // Flash message timeout
+  appear_delay: 100, // Delay before flash message appears
+  container: '.flash-container', // Flash messages container element selector
+  theme: '', // CSS theme (availables: default, dark)
+  classes: {
+      container: 'flash-container', // Custom container css class
+      flash: 'flash-message', // Flash message element css class
+      visible: 'is-visible', // Flash message element css visible class
+      progress: 'flash-progress', // Flash message progress bar element css class
+      progress_hidden: 'is-hidden' // Flash message progress bar element hidden css class
+  }
+});
+}
+function p2Win (){
+    window.FlashMessage.success('Player 2 has won!', {
+  progress: true, // displays a progress bar at the bottom of the flash message
+  interactive: true, // Define flash message actions (pause on mouseover, close on click) 
+  timeout: 3000, // Flash message timeout
+  appear_delay: 100, // Delay before flash message appears
+  container: '.flash-container', // Flash messages container element selector
+  theme: '', // CSS theme (availables: default, dark)
+  classes: {
+      container: 'flash-container', // Custom container css class
+      flash: 'flash-message', // Flash message element css class
+      visible: 'is-visible', // Flash message element css visible class
+      progress: 'flash-progress', // Flash message progress bar element css class
+      progress_hidden: 'is-hidden' // Flash message progress bar element hidden css class
+  }
+});
+}
+</script>
+</body>
+</html>
